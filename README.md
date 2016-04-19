@@ -12,8 +12,8 @@ For Android:
 // file: android/settings.gradle
 ...
 
-include ':NumberPicker', ':app'
-project(':NumberPicker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-numberpicker')
+include ':react-native-numberpicker', ':app'
+project(':react-native-numberpicker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-numberpicker')
 ```
 
 ```
@@ -22,22 +22,23 @@ project(':NumberPicker').projectDir = new File(rootProject.projectDir, '../node_
 
 dependencies {
     ...
-    compile project(':NumberPicker')
+    compile project(':react-native-numberpicker')
 }
 ```
 
 ```
 // file: android/app/source/main/java/com/{projectName}.MainActivity.java
 ...
-import fixd.io.numberpicker.NumberPickerManager;
+io.fixd.reactnativenumberpicker.RNNumberPickerPackage;
 ...
-.addPackage(new NumberPicker(this))
+.addPackage(new RNNumberPickerPackage(this))
 ...
 ```
 
 ### Usage
 
 ```
+let NumberPicker = require('react-native-numberpicker');
 <NumberPicker
 	style={styles.picker}
 	height={150}
