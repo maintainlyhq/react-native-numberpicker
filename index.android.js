@@ -7,15 +7,20 @@ class NumberPicker extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			selectedIndex: this.props.selectedIndex,
-			values: this.props.values
-		};
+		this.state = this._stateFromProps(props);
 		this._onChange = this._onChange.bind(this);
 	}
 
 	componentWillReceiveProps(props) {
-		this.state.values = props.values;
+		this.props = props;
+		this.setState(this._stateFromProps(props))
+	}
+
+	_stateFromProps(props) {
+		return {
+			selectedIndex: props.selectedIndex,
+			values: props.values
+		};
 	}
 
 	_onChange(event) {
@@ -23,14 +28,9 @@ class NumberPicker extends React.Component {
 		if (this.props.onSelect)
 			this.props.onSelect(event.nativeEvent.value);
 
-	}
+		if (this.refs[REF_PICKER] && this.state.selectedIndex !== event.nativeEvent.value)
+			this.refs[REF_PICKER].setNativeProps({selected: this.state.selectedIndex});
 
-	setValues(values) {
-		this.setState({values: values})
-	}
-
-	setSelectedIndex(index) {
-		this.setState({selectedIndex: index});
 	}
 
 	render() {
