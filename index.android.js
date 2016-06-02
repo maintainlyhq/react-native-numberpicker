@@ -1,9 +1,9 @@
-var React = require('react-native');
-var { requireNativeComponent, PropTypes, View} = React;
+import { Component, PropTypes } from 'react';
+import { requireNativeComponent, View} from 'react-native';
 
 var REF_PICKER = 'numberpicker';
 
-class NumberPicker extends React.Component {
+class NumberPicker extends Component {
 
 	constructor(props) {
 		super(props);

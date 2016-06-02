@@ -1,6 +1,6 @@
-var React = require('react-native');
+import { Component } from 'react';
 
-class NumberPicker extends React.Component {
+class NumberPicker extends Component {
 
 	constructor(props) {
 		super(props);
