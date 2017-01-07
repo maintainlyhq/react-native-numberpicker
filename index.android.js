@@ -1,4 +1,4 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { requireNativeComponent, View} from 'react-native';
 
 var REF_PICKER = 'numberpicker';
@@ -27,9 +27,6 @@ class NumberPicker extends Component {
 
 		if (this.props.onSelect)
 			this.props.onSelect(event.nativeEvent.value);
-
-		if (this.refs[REF_PICKER] && this.state.selectedIndex !== event.nativeEvent.value)
-			this.refs[REF_PICKER].setNativeProps({selected: this.state.selectedIndex});
 
 	}
 
