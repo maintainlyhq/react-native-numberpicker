@@ -4,8 +4,8 @@
   "description": "React Native Android NumberPicker",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Symphony9/react-native-numberpicker"
+    "url": "https://github.com/fixd/react-native-numberpicker.git"
   },
-  "author": "DanielMaly",
+  "author": "Fixd",
   "license": "MIT"
 }
