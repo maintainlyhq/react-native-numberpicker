@@ -54,6 +54,11 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker>
         view.setValue(selected);
     }
 
+    @ReactProp(name = "keyboardInputEnabled")
+    public void setKeyboardInputEnabled(RNNumberPicker view, Boolean enabled) {
+        view.setKeyboardInputEnabled(enabled);
+    }
+
     @Override
     protected void addEventEmitters(final ThemedReactContext reactContext, final RNNumberPicker picker) {
         picker.setOnChangeListener(this);

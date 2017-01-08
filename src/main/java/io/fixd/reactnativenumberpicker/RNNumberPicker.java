@@ -33,7 +33,19 @@ public class RNNumberPicker extends NumberPicker {
         super(context, attrs);
     }
 
-    public RNNumberPicker(Context context, AttributeSet attrs, int defStyle) {  super(context, attrs, defStyle); }
+    public RNNumberPicker(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
+    public void setKeyboardInputEnabled(boolean enabled) {
+        if(!enabled) {
+            this.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        }
+        else {
+            this.setDescendantFocusability(NumberPicker.FOCUS_AFTER_DESCENDANTS);
+        }
+    }
+
 
     public void setOnChangeListener(@Nullable OnChangeListener onValueChangeListener) {
         setOnValueChangedListener(

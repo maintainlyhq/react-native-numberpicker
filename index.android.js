@@ -41,7 +41,7 @@ class NumberPicker extends Component {
 				onChange={this._onChange}
 				style={[{height:this.props.height}, style && style]}
 				{...otherProps}
-				/>
+			/>
 		);
 	}
 }
@@ -49,6 +49,7 @@ class NumberPicker extends Component {
 NumberPicker.defaultProps  = {
 	selectedIndex: 0,
 	height: 100,
+	keyboardInputEnabled: true
 };
 
 NumberPicker.propTypes = {
@@ -57,6 +58,7 @@ NumberPicker.propTypes = {
 	selectedIndex: PropTypes.number,
 	values: PropTypes.arrayOf(PropTypes.string).isRequired,
 	onSelect: PropTypes.func,
+	keyboardInputEnabled: PropTypes.bool
 };
 
 var NativeNumberPicker = requireNativeComponent('RNNumberPicker', NumberPicker, {
