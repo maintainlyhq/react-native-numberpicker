@@ -1,4 +1,4 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { requireNativeComponent, View} from 'react-native';
 
 var REF_PICKER = 'numberpicker';
