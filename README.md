@@ -47,5 +47,6 @@ let NumberPicker = require('react-native-numberpicker');
 	onSelect={(value) => {
 		console.log('onSelect', value);
 	}}
+	keyboardInputEnabled={true}
 	/>
 ```

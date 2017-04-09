@@ -28,9 +28,6 @@ class NumberPicker extends Component {
 		if (this.props.onSelect)
 			this.props.onSelect(event.nativeEvent.value);
 
-		if (this.refs[REF_PICKER] && this.state.selectedIndex !== event.nativeEvent.value)
-			this.refs[REF_PICKER].setNativeProps({selected: this.state.selectedIndex});
-
 	}
 
 	render() {
@@ -44,7 +41,7 @@ class NumberPicker extends Component {
 				onChange={this._onChange}
 				style={[{height:this.props.height}, style && style]}
 				{...otherProps}
-				/>
+			/>
 		);
 	}
 }
@@ -52,6 +49,7 @@ class NumberPicker extends Component {
 NumberPicker.defaultProps  = {
 	selectedIndex: 0,
 	height: 100,
+	keyboardInputEnabled: true
 };
 
 NumberPicker.propTypes = {
@@ -60,6 +58,7 @@ NumberPicker.propTypes = {
 	selectedIndex: PropTypes.number,
 	values: PropTypes.arrayOf(PropTypes.string).isRequired,
 	onSelect: PropTypes.func,
+	keyboardInputEnabled: PropTypes.bool
 };
 
 var NativeNumberPicker = requireNativeComponent('RNNumberPicker', NumberPicker, {

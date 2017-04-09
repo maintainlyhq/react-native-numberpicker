@@ -2,6 +2,9 @@ package io.fixd.reactnativenumberpicker;
 
 import javax.annotation.Nullable;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -11,13 +14,17 @@ import com.facebook.react.common.SystemClock;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.uimanager.UIProp;
 import com.facebook.react.uimanager.ViewProps;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import java.lang.Integer;
 import java.lang.String;
 
-public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker> {
+public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker>
+        implements RNNumberPicker.OnChangeListener {
 
     public static final String REACT_CLASS = "RNNumberPicker";
+
+    private RNNumberPicker view;
 
     @Override
     public String getName() {
@@ -26,7 +33,8 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker> {
 
     @Override
     protected RNNumberPicker createViewInstance(ThemedReactContext reactContext) {
-        return new RNNumberPicker(reactContext);
+        this.view = new RNNumberPicker(reactContext);
+        return this.view;
     }
 
     @ReactProp(name = "values")
@@ -46,32 +54,24 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker> {
         view.setValue(selected);
     }
 
+    @ReactProp(name = "keyboardInputEnabled")
+    public void setKeyboardInputEnabled(RNNumberPicker view, Boolean enabled) {
+        view.setKeyboardInputEnabled(enabled);
+    }
+
     @Override
     protected void addEventEmitters(final ThemedReactContext reactContext, final RNNumberPicker picker) {
-        picker.setOnChangeListener(
-                new RNNumberPickerEventEmitter(
-                        picker,
-                        reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher()
-                )
-        );
+        picker.setOnChangeListener(this);
     }
 
-    private static class RNNumberPickerEventEmitter implements RNNumberPicker.OnChangeListener {
-
-        private final RNNumberPicker mRNNumberPicker;
-        private final EventDispatcher mEventDispatcher;
-
-        public RNNumberPickerEventEmitter(RNNumberPicker reactNumberPicker, EventDispatcher eventDispatcher) {
-            mRNNumberPicker = reactNumberPicker;
-            mEventDispatcher = eventDispatcher;
-        }
-
-        @Override
-        public void onValueChange(int value) {
-            mEventDispatcher.dispatchEvent(
-                new RNNumberPickerChangeEvent(mRNNumberPicker.getId(), SystemClock.nanoTime(), value)
-            );
-        }
+    @Override
+    public void onValueChange(int value) {
+        WritableMap event = Arguments.createMap();
+        event.putInt("value", value);
+        ReactContext reactContext = (ReactContext) view.getContext();
+        reactContext.getJSModule(RCTEventEmitter.class)
+                .receiveEvent(view.getId(), "topChange", event);
     }
+
 
 }
