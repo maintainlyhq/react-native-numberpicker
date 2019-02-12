@@ -3,7 +3,7 @@ import { requireNativeComponent, View} from 'react-native';
 
 var REF_PICKER = 'numberpicker';
 
-class NumberPicker extends Component {
+export default class NumberPicker extends Component {
 
 	constructor(props) {
 		super(props);
@@ -54,19 +54,9 @@ NumberPicker.defaultProps  = {
 	height: 100,
 };
 
-NumberPicker.propTypes = {
-	...View.propTypes,
-	height: PropTypes.number,
-	selectedIndex: PropTypes.number,
-	values: PropTypes.arrayOf(PropTypes.string).isRequired,
-	onSelect: PropTypes.func,
-};
-
 var NativeNumberPicker = requireNativeComponent('RNNumberPicker', NumberPicker, {
 	nativeOnly: {
 		onChange: true,
 		selected: true,
 	}
 });
-
-module.exports = NumberPicker;

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
-class NumberPicker extends Component {
+export default class NumberPicker extends Component {
 
 	constructor(props) {
 		super(props);
@@ -12,5 +12,3 @@ class NumberPicker extends Component {
 		return null;
 	}
 }
-
-module.exports = NumberPicker;
