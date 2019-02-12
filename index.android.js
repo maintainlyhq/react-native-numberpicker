@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { NativeModules } from 'react-native';
-const NativeNumberPicker = NativeModules.RNNumberPicker;
+import { requireNativeComponent } from 'react-native';
 
 var REF_PICKER = 'numberpicker';
 
@@ -54,3 +53,10 @@ NumberPicker.defaultProps  = {
 	selectedIndex: 0,
 	height: 100,
 };
+
+var NativeNumberPicker = requireNativeComponent('RNNumberPicker', NumberPicker, {	
+	nativeOnly: {	
+		onChange: true,	
+		selected: true,	
+	}	
+});
