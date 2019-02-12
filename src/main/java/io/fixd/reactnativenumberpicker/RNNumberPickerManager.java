@@ -9,8 +9,6 @@ import com.facebook.react.uimanager.events.EventDispatcher;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.common.SystemClock;
 import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.uimanager.UIProp;
-import com.facebook.react.uimanager.ViewProps;
 
 import java.lang.Integer;
 import java.lang.String;
@@ -69,7 +67,7 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker> {
         @Override
         public void onValueChange(int value) {
             mEventDispatcher.dispatchEvent(
-                new RNNumberPickerChangeEvent(mRNNumberPicker.getId(), SystemClock.nanoTime(), value)
+                new RNNumberPickerChangeEvent(mRNNumberPicker.getId(), value)
             );
         }
     }
