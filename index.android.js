@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { NativeModules } from 'react-native';
 const NativeNumberPicker = NativeModules.RNNumberPicker;
 
