@@ -5,51 +5,51 @@ import javax.annotation.Nullable;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.NumberPicker;
-import android.widget.EditText;
-import android.graphics.Color;
+
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 public class RNNumberPicker extends NumberPicker {
 
-    private @Nullable OnChangeListener mOnChangeListener;
     private boolean mSuppressNextEvent;
     private @Nullable Integer mStagedSelection;
-    private @Nullable Integer mTextSize;
-    private @Nullable Integer mTextColor;
-
-    /**
-     * Listener interface for events.
-     */
-    public interface OnChangeListener {
-        void onValueChange(int value);
-    }
 
     public RNNumberPicker(Context context) {
         super(context);
+        this.setOnChangeListener();
     }
 
     public RNNumberPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.setOnChangeListener();
     }
 
-    public RNNumberPicker(Context context, AttributeSet attrs, int defStyle) {  super(context, attrs, defStyle); }
+    public RNNumberPicker(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        this.setOnChangeListener();
+    }
 
-    public void setOnChangeListener(@Nullable OnChangeListener onValueChangeListener) {
+    public void setOnChangeListener() {
         setOnValueChangedListener(
             new OnValueChangeListener() {
                 @Override
                 public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                    if (!mSuppressNextEvent && mOnChangeListener != null) {
-                        mOnChangeListener.onValueChange(newVal);
+                    if (!mSuppressNextEvent) {
+                        WritableMap event = Arguments.createMap();
+                        event.putInt("value", newVal);
+                        event.putInt("oldVal", oldVal);
+                        ReactContext reactContext = (ReactContext)getContext();
+                        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+                                getId(),
+                                "topChange",
+                                event);
                     }
                     mSuppressNextEvent = false;
                 }
             }
         );
-        mOnChangeListener = onValueChangeListener;
-    }
-
-    @Nullable public OnChangeListener getOnChangeListener() {
-        return mOnChangeListener;
     }
 
     /**

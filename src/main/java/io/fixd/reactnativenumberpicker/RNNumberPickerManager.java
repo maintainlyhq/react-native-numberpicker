@@ -2,16 +2,15 @@ package io.fixd.reactnativenumberpicker;
 
 import javax.annotation.Nullable;
 
+import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
-import com.facebook.react.uimanager.events.EventDispatcher;
-import com.facebook.react.uimanager.UIManagerModule;
-import com.facebook.react.common.SystemClock;
 import com.facebook.react.bridge.ReadableArray;
 
 import java.lang.Integer;
 import java.lang.String;
+import java.util.Map;
 
 public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker> {
 
@@ -25,6 +24,16 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker> {
     @Override
     protected RNNumberPicker createViewInstance(ThemedReactContext reactContext) {
         return new RNNumberPicker(reactContext);
+    }
+
+    public Map getExportedCustomBubblingEventTypeConstants() {
+        return MapBuilder.builder()
+            .put(
+                "onChange",
+                MapBuilder.of(
+                        "phasedRegistrationNames",
+                        MapBuilder.of("bubbled", "onChange")))
+            .build();
     }
 
     @ReactProp(name = "values")
@@ -43,33 +52,4 @@ public class RNNumberPickerManager extends SimpleViewManager<RNNumberPicker> {
     public void setValue(RNNumberPicker view, Integer selected) {
         view.setValue(selected);
     }
-
-    @Override
-    protected void addEventEmitters(final ThemedReactContext reactContext, final RNNumberPicker picker) {
-        picker.setOnChangeListener(
-                new RNNumberPickerEventEmitter(
-                        picker,
-                        reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher()
-                )
-        );
-    }
-
-    private static class RNNumberPickerEventEmitter implements RNNumberPicker.OnChangeListener {
-
-        private final RNNumberPicker mRNNumberPicker;
-        private final EventDispatcher mEventDispatcher;
-
-        public RNNumberPickerEventEmitter(RNNumberPicker reactNumberPicker, EventDispatcher eventDispatcher) {
-            mRNNumberPicker = reactNumberPicker;
-            mEventDispatcher = eventDispatcher;
-        }
-
-        @Override
-        public void onValueChange(int value) {
-            mEventDispatcher.dispatchEvent(
-                new RNNumberPickerChangeEvent(mRNNumberPicker.getId(), value)
-            );
-        }
-    }
-
 }
